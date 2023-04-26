@@ -11,3 +11,7 @@ I tested the project using Carnations, and it worked perfectly, but if you are c
 * "currentMoisture < 300", This is the condition that triggers the water pump when your plant is too dry, if your plant requires less dry soil, the 300 should be increased.
 
 A diagram of how to wire up your Smart Garden is shown below (with the dc motor representing the water pump):
+
+![SmartGarden](https://user-images.githubusercontent.com/61507843/234591575-85e82a3d-c9ae-4e11-a28c-c2b4dcb2c8aa.png)
+
+Note: The wires leading nowhere on row C should be pluged into your Light Intensity Sensor. The software I used to create the diagram did not have them available so I left a space there.
