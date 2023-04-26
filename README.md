@@ -14,4 +14,6 @@ A diagram of how to wire up your Smart Garden is shown below (with the dc motor 
 
 ![SmartGarden](https://user-images.githubusercontent.com/61507843/234591575-85e82a3d-c9ae-4e11-a28c-c2b4dcb2c8aa.png)
 
-Note: The wires leading nowhere on row C should be pluged into your Light Intensity Sensor. The software I used to create the diagram did not have them available so I left a space there.
+Note: The wires leading nowhere on row C should be plugged into your Light Intensity Sensor. The software I used to create the diagram did not have them available so I left a space there.
+
+Link to video of the working solution: https://www.youtube.com/watch?v=AY0_Behodl0
