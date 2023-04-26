@@ -2,8 +2,8 @@
 #include <DallasTemperature.h>
 
 int moisture = 0;
-const int moistureSensor1Pin = A0;//Declare a variable for the soil moisture sensor 
-const int soilPower = 8;//Variable for Soil moisture Power
+const int moistureSensorPin = A0; 
+const int soilPower = 8;//pin that powers the moisture sensor
 const int waterPumpPin = 11;
 const int lightSensor = A5;
 const int tempSensor = 9;
@@ -19,9 +19,14 @@ void turnPumpOn(int secondsToPumpFor)
   digitalWrite(waterPumpPin, LOW);
 }
 
-void turnPumpOn()
+void turnPumpOn()//if no duration is supplied, waters until turnPumpOff() is called
 {
   digitalWrite(waterPumpPin, HIGH);
+}
+
+void turnPumpOff()//if no duration is supplied, waters until turnPumpOff() is called
+{
+  digitalWrite(waterPumpPin, LOW);
 }
 
 float getTempInCelsius()
@@ -33,22 +38,22 @@ float getTempInCelsius()
 
 int getMoisture()
 {
-    digitalWrite(soilPower, HIGH);//turn D8 "On"
+    digitalWrite(soilPower, HIGH);//turn moisture sensor on
     delay(200);
-    moisture = analogRead(moistureSensor1Pin);//Read the SIG value form sensor #
+    moisture = analogRead(moistureSensorPin);
     //val 0 = bone dry
     //val ~880+ is totally underwater
-    digitalWrite(soilPower, LOW);//turn D8 "Off"
-    return moisture;//send current moisture value
+    digitalWrite(soilPower, LOW);//turn moisture sensor off
+    return moisture;
 }
 
 void setup() 
 {
-  Serial.begin(9600);   // open serial over USB
+  Serial.begin(9600);
   tempSensors.begin();
   pinMode(waterPumpPin, OUTPUT);
-  pinMode(soilPower, OUTPUT);//Set D8 as an OUTPUT
-  digitalWrite(soilPower, LOW);//Set to LOW so no power is flowing through the sensor
+  pinMode(soilPower, OUTPUT);
+  digitalWrite(soilPower, LOW);
   digitalWrite(waterPumpPin, LOW);
 }
 
@@ -67,17 +72,17 @@ Serial.println(currentTempInCelsius);
 Serial.print("Soil Moisture = ");    
 Serial.println(currentMoisture);
 
-if (millis() - lastWateredInMillis > defaultDelayBetweenWatering && currentMoisture < 300)//Water due to time since last watering
+if (millis() - lastWateredInMillis > (defaultDelayBetweenWatering*1000) && currentMoisture < 300)//Water due to time since last watering
 {
   turnPumpOn(5);
   lastWateredInMillis = millis();
 }
-else if (millis() - lastWateredInMillis > (defaultDelayBetweenWatering/2) && currentMoisture < 600)//Water due to current moisture levels, although it must have been some time to prevent overwatering
+else if (millis() - lastWateredInMillis > ((defaultDelayBetweenWatering*1000)/2) && currentMoisture < 600)//Water due to current moisture levels, although it must have been some time to prevent overwatering
 {
   turnPumpOn(5);
   lastWateredInMillis = millis();
 }
-else if (millis() - lastWateredInMillis > (defaultDelayBetweenWatering/2) && currentTempInCelsius > 20)//Water due to temperature
+else if (millis() - lastWateredInMillis > ((defaultDelayBetweenWatering*1000)/2) && currentTempInCelsius > 20)//Water due to temperature
 {
   turnPumpOn(5);
   lastWateredInMillis = millis();  
